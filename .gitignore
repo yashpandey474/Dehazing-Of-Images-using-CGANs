@@ -1,1 +1,4 @@
 .DS_Store
+Notebooks/Task2Dataset
+Notebooks/.ipynb_checkpoints/
+Notebooks/**/*.pth
