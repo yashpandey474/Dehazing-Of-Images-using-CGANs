@@ -10,7 +10,6 @@ import numpy as np
 from PIL import Image
 import os
 from torch.optim import lr_scheduler
-
 class DehazingDataset(data.Dataset):
     def __init__(self, root_dir, transform=None):
         #Get the images
@@ -19,10 +18,25 @@ class DehazingDataset(data.Dataset):
         clean_images_path = os.path.join(root_dir, 'GT')
 
 
-        self.hazy_images = [os.path.join(hazy_images_path,f) for f in os.listdir(hazy_images_path) if  f.endswith('.jpg') or f.endswith('.png') or f.endswith('.jpeg')]
-        self.clean_images = [os.path.join(clean_images_path, f) for f in os.listdir(clean_images_path) if f.endswith('.jpg') or f.endswith('.png') or f.endswith('.jpeg')]
+        hazy_images = [f for f in os.listdir(hazy_images_path) if  f.endswith('.jpg') or f.endswith('.png') or f.endswith('.jpeg')]
+      
+        self.hazy_images = []
+        self.clean_images = []
 
-        #Filter the images to ensure they are counterparts of the same scene
+        for path in hazy_images:
+            basename = os.path.splitext(os.path.basename(path))[0]  # Extract base filename without extension
+            filename = basename.split()[0]
+             
+            clean_image = os.path.join(clean_images_path, filename + '.png')  # Assuming clean images have PNG extension
+            if not os.path.exists(clean_image):
+                clean_image = os.path.join(clean_images_path, filename + '.jpg')  # Try JPG extension
+            if not os.path.exists(clean_image):
+                clean_image = os.path.join(clean_images_path, filename + '.jpeg')  # Try JPEG extension
+            if os.path.exists(clean_image):
+                self.hazy_images.append(os.path.join(hazy_images_path, path))
+                self.clean_images.append(clean_image)
+
+
         self.size = len(self.hazy_images)
         self.transform=transform
 
@@ -40,4 +54,3 @@ class DehazingDataset(data.Dataset):
 
     def __len__(self):
         return self.size
-
