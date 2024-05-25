@@ -12,6 +12,14 @@ The following points represent major experimental points in our project
 6. Experimented with individual loss functions such as wasserstein loss, l1loss, min-max loss.
 7. Collected and analysed results such as a loss graph, generated images to make a comprehensive report.
 
+# Results of Augmentation & Dehazing
+The below image shows the varying haze applied to clean images to augment new images, we chose just the medium and low haze images to restrict the size of the dataset.
+![Alt text](Augmented Images Examples/VARYING_HAZE_AUGMENT.png)
+
+Convergence can be difficult to achieve using just min-max loss in GANs. The following graph depicts the smooth convergence resulting from using the composite loss function with l1loss, l2loss, min-max loss and reconstruction loss.
+![Alt text](Loss Graphs/MODEL1 LOSSES.jpeg)
+
+
 # Running the code
 The ```submission files``` folder contains code for testing and training the model-1 architecture.
 There exists a pretrained model weights file in the folder for testing, hence avoiding a heavy training process.
